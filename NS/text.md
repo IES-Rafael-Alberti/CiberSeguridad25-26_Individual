@@ -1,6 +1,10 @@
 <h1 align="center">Actividades de Normativa</h1>
 
-![imagen portada infraestructura](https://github.com/IES-Rafael-Alberti/CiberSeguridad25-26_Individual/blob/main/img/istockphoto-2045620685-612x612.jpg)
+<p align="center">
+  <img src="https://github.com/IES-Rafael-Alberti/CiberSeguridad25-26_Individual/blob/main/img/istockphoto-2045620685-612x612.jpg" 
+       alt="imagen portada infraestructura" width="400">
+</p>
+
 
 ***Fecha**: 19 de octubre de 2025 <br><br> **Autores**: Manuel Pérez*
 
@@ -116,5 +120,6 @@ Sí, **Internet necesita algún tipo de regulación jurídica** para garantizar 
 - Código Penal
 
 > Esta respuesta está sacada de la fuente de *Chat-GPT*.
+
 
 
