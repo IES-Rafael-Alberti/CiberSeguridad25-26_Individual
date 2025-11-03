@@ -1,0 +1,29 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2025-11-03T14:21:00+01:00",
+  "id": "proyecto-1-hardening-arranque",
+  "duration": 17,
+  "title": "Proyecto 1: GUÍA DE BASTIONADO DE BIOS/UEFI",
+  "summary": "Guía exhaustiva para el bastionado de la secuencia de arranque, cubriendo la configuración de la BIOS/UEFI y la protección del gestor de arranque GRUB 2 en sistemas Debian.",
+  "source": "CodeLab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "seguridad",
+    "linux",
+    "bios",
+    "uefi",
+    "hardening"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "[Tu Enlace al Repositorio de GitHub para feedback]",
+  "ga": "[ID de Google Analytics]",
+  "url": "proyecto-1-hardening-arranque"
+}

@@ -1,0 +1,107 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Proyecto 1: GUÍA DE BASTIONADO DE BIOS/UEFI</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid="[ID de Google Analytics]"
+                  id="proyecto-1-hardening-arranque"
+                  title="Proyecto 1: GUÍA DE BASTIONADO DE BIOS/UEFI"
+                  environment="web"
+                  feedback-link="[Tu Enlace al Repositorio de GitHub para feedback]">
+    
+      <google-codelab-step label="Introducción y Objetivos del Proyecto" duration="2">
+        <p>El presente Codelab documenta las guías técnicas para el <strong>bastionado (hardening)</strong> de la secuencia de arranque de un sistema informático, estructurado en dos fases:</p>
+<ol type="1">
+<li><strong>Hardening de BIOS/UEFI (Parte 1):</strong> Configuración del firmware para mitigar el acceso no autorizado y la manipulación del orden de inicio.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Establecimiento de Contraseñas de Acceso" duration="6">
+        <p>El establecimiento de contraseñas en el <em>firmware</em> es una medida esencial para <strong>impedir la modificación de la configuración de seguridad</strong> y evitar el arranque del sistema por parte de personal no autorizado.</p>
+<h2 is-upgraded>Contraseña de Administración o Supervisor</h2>
+<p>Esta clave es crítica, ya que su conocimiento es necesario para <strong>acceder y modificar la totalidad de los parámetros de la BIOS/UEFI</strong>. Su omisión permite a cualquier usuario deshabilitar las protecciones implementadas.</p>
+<ol type="1">
+<li><strong>Acceso al Firmware:</strong> Reinicie el equipo y pulse la tecla de acceso al <em>Setup</em> (usualmente <code>F2</code>, <code>Supr</code>, <code>F10</code>, o <code>F12</code>) durante la fase inicial de arranque.</li>
+<li><strong>Ubicación:</strong> Navegue a la sección <strong>Security</strong> (Seguridad), <strong>Password</strong> o <strong>System Setup</strong>.</li>
+<li><strong>Configuración:</strong> Defina la <strong>Administrator Password</strong> (o <strong>Supervisor Password</strong>).</li>
+<li><strong>Recomendación:</strong> Se recomienda utilizar una clave <strong>robusta y única</strong>, distinta de las credenciales de usuario del sistema operativo.</li>
+</ol>
+<h2 is-upgraded>Contraseña de Usuario o Arranque (Power-On Password - POP)</h2>
+<p>Esta contraseña <strong>impide la carga del sistema operativo</strong> y es solicitada antes de la inicialización de cualquier componente del sistema operativo (SO).</p>
+<ol type="1">
+<li><strong>Ubicación:</strong> Localice la opción dentro de la misma sección de Seguridad.</li>
+<li><strong>Configuración:</strong> Habilite y defina la <strong>User Password</strong> o <strong>Power-On Password (POP)</strong>.</li>
+<li><strong>Aplicación:</strong> Verifique que la opción <strong>Password Check</strong> o <strong>Password on boot</strong> esté activada para garantizar la solicitud de la clave en cada inicio.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Control de Arranques y Opciones Adicionales de Seguridad" duration="9">
+        <h2 is-upgraded>Orden de Arranque Seguro</h2>
+<p>La definición estricta de la secuencia de dispositivos de inicio previene que un actor malicioso utilice soportes extraíbles (USB o DVD) para cargar un sistema operativo alternativo o herramientas de ataque.</p>
+<ol type="1">
+<li><strong>Navegación:</strong> Acceda a la pestaña <strong>Boot</strong> (Arranque) o <strong>Boot Priority</strong>.</li>
+<li><strong>Prioridad:</strong> Establezca el disco principal (<strong>HDD/SSD</strong> con el SO) como <strong>Boot Option #1</strong> (máxima prioridad).</li>
+<li><strong>Secundarios:</strong> Relegue el resto de opciones de arranque (USB, CD/DVD, Red) a posiciones inferiores.</li>
+</ol>
+<h2 is-upgraded>Deshabilitar Arranques desde Dispositivos Externos</h2>
+<p>A pesar de controlar la prioridad, es una práctica de endurecimiento recomendada deshabilitar por completo el soporte para el inicio desde dispositivos extraíbles si no son necesarios para el funcionamiento habitual.</p>
+<ul>
+<li><strong>Ubicación:</strong> Generalmente en las pestañas <strong>Boot</strong> o <strong>Advanced</strong>.</li>
+<li><strong>Acciones:</strong> Deshabilite explícitamente las siguientes fuentes: <ul>
+<li><strong>Boot from USB / USB Mass Storage:</strong> Establecer como <code>Disabled</code>.</li>
+<li><strong>PXE Boot / Network Boot:</strong> Establecer como <code>Disabled</code> (salvo que se requiera para gestión remota).</li>
+<li><strong>Boot Menu Key:</strong> Si la opción está disponible, deshabilite la tecla de acceso directo al menú de arranque (ej. <code>F12</code>) para forzar la interacción con la BIOS protegida.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>Secure Boot y Módulo de Plataforma Confiable (TPM)</h2>
+<p>Estas características representan medidas de seguridad avanzadas a nivel de <em>hardware</em> y <em>firmware</em> introducidas con la especificación UEFI.</p>
+<h3 is-upgraded>A. Secure Boot</h3>
+<p>Asegura que el <em>firmware</em> solo cargue cargadores de arranque (<em>boot loaders</em>) y <em>drivers</em> que hayan sido <strong>firmados digitalmente</strong> por autoridades de confianza.</p>
+<ol type="1">
+<li><strong>Requisito:</strong> El <em>firmware</em> debe operar en modo <strong>UEFI</strong>.</li>
+<li><strong>Ubicación:</strong> Sección <strong>Security</strong> o <strong>Boot</strong>.</li>
+<li><strong>Acción:</strong> Verifique que <strong>Secure Boot</strong> esté configurado como <code>Enabled</code>.</li>
+</ol>
+<h3 is-upgraded>B. Trusted Platform Module (TPM)</h3>
+<p>Es un coprocesador criptográfico diseñado para <strong>almacenar claves</strong> y realizar mediciones de integridad del proceso de arranque. Es fundamental para tecnologías de cifrado de disco completo.</p>
+<ol type="1">
+<li><strong>Ubicación:</strong> Sección <strong>Security</strong> o <strong>Advanced</strong>.</li>
+<li><strong>Acción:</strong> Localice el <strong>TPM Device</strong> (o la implementación específica del fabricante como <em>Intel PTT</em> o <em>AMD fTPM</em>) y establézcalo en <code>Enabled</code>.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
