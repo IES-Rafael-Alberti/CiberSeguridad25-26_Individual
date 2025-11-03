@@ -1,0 +1,138 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Proyecto 2: GUÍA DE BASTIONADO DE BIOS/UEFI</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid="[ID de Google Analytics]"
+                  id="proyecto-1-hardening-arranque"
+                  title="Proyecto 2: GUÍA DE BASTIONADO DE BIOS/UEFI"
+                  environment="web"
+                  feedback-link="[Tu Enlace al Repositorio de GitHub para feedback]">
+    
+      <google-codelab-step label="Ocultación del Menú de Arranque" duration="3">
+        <p>La ocultación del menú de GRUB 2 es una medida fundamental para <strong>evitar que un atacante acceda a las opciones avanzadas de arranque</strong> (presionando <code>E</code>), lo que podría utilizarse para modificar los parámetros del <em>kernel</em> y eludir la autenticación del sistema operativo.</p>
+<h2 is-upgraded>Procedimiento de Ocultación</h2>
+<ol type="1">
+<li><strong>Edición del Archivo de Configuración:</strong> Acceda al archivo que controla la configuración de usuario y entorno de GRUB 2, utilizando un editor de texto con permisos de superusuario:<pre><code language="language-bash" class="language-bash">sudo nano /etc/default/grub
+</code></pre>
+</li>
+<li><strong>Ajuste del Tiempo de Espera (Timeout):</strong> Localice la línea <code>GRUB_TIMEOUT</code> y modifique su valor a <code>0</code>. Esto fuerza al sistema a iniciar inmediatamente el sistema operativo por defecto sin mostrar el menú.<ul>
+<li><strong>Original (ejemplo): </strong><code>GRUB_TIMEOUT=5</code></li>
+<li><strong>Modificado: </strong><code>GRUB_TIMEOUT=0</code></li>
+</ul>
+</li>
+<li><strong>Habilitación del Estilo Oculto:</strong> Asegúrese de que la siguiente línea esté configurada. Esto garantiza que el menú permanezca oculto a menos que se fuerce su aparición por un error grave del sistema.<pre><code language="language-bash" class="language-bash">GRUB_TIMEOUT_STYLE=hidden
+</code></pre>
+</li>
+<li><strong>Generación de la Nueva Configuración:</strong> Guarde el archivo y genere el nuevo fichero de configuración de GRUB (<code>/boot/grub/grub.cfg</code>) para aplicar los cambios:<pre><code language="language-bash" class="language-bash">sudo update-grub
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Protección del Gestor de Arranque con Contraseña" duration="8">
+        <p>Incluso si el menú está oculto, un atacante con acceso físico podría intentar forzar su aparición. El siguiente paso es proteger el gestor de arranque con una contraseña de administrador que se solicite antes de editar las entradas.</p>
+<h2 is-upgraded>Creación de la Contraseña Cifrada</h2>
+<p>Para evitar almacenar la contraseña en texto plano, se debe cifrar mediante el algoritmo <strong>PBKDF2</strong> (Password-Based Key Derivation Function 2):</p>
+<ol type="1">
+<li><strong>Generación de la Contraseña Cifrada:</strong> Ejecute el siguiente comando e introduzca la contraseña deseada cuando se le solicite: <pre><code language="language-bash" class="language-bash">sudo grub-mkpasswd-pbkdf2
+</code></pre>
+El sistema devolverá una cadena de texto larga que comienza con <code>grub.pbkdf2.sha512...</code>. Copie esta cadena completa.</li>
+</ol>
+<h2 is-upgraded>Configuración del Archivo 40_custom</h2>
+<p>Se recomienda utilizar el archivo <code>/etc/grub.d/40_custom</code> para añadir configuraciones personalizadas, ya que no se sobrescribirá con futuras actualizaciones del sistema.</p>
+<ol type="1">
+<li><strong>Edición del Archivo de Personalización:</strong><pre><code language="language-bash" class="language-bash">sudo nano /etc/grub.d/40_custom
+</code></pre>
+</li>
+<li><strong>Definición de Superusuarios y Contraseña:</strong> Añada las siguientes líneas al final del archivo, utilizando la cadena cifrada generada anteriormente. El usuario <code>root</code> será el único que podrá modificar las opciones de arranque:<pre><code language="language-bash" class="language-bash">set superusers=&#34;root&#34;
+password_pbkdf2 root TU_CLAVE_PBKDF2_COMPLETA
+</code></pre>
+Donde <code>TU_CLAVE_PBKDF2_COMPLETA</code> es la cadena copiada en el paso anterior.</li>
+<li><strong>Generación de la Nueva Configuración:</strong> Guarde y cierre el archivo, y vuelva a generar el fichero de configuración de GRUB para aplicar la protección:<pre><code language="language-bash" class="language-bash">sudo update-grub
+</code></pre>
+Ahora, si intenta editar una entrada de arranque en el menú de GRUB, se le solicitarán las credenciales del superusuario (<code>root</code>).</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Restricción de Permisos del Archivo de Configuración" duration="3">
+        <p>Para proteger la integridad del gestor de arranque, es crucial asegurar que solo el usuario <code>root</code> pueda modificar los archivos utilizados para generar la configuración de GRUB 2.</p>
+<h2 is-upgraded>Modificación de Permisos</h2>
+<ol type="1">
+<li><strong>Restricción de Acceso:</strong> Utilice el comando <code>chmod</code> para establecer los permisos del directorio que contiene los <em>scripts</em> de configuración de GRUB y, específicamente, del archivo personalizado <code>40_custom</code>, de modo que solo el propietario (<code>root</code>) tenga permisos de lectura, escritura y ejecución.<ul>
+<li><strong>Directorio de scripts:</strong><pre><code language="language-bash" class="language-bash">sudo chmod -R 700 /etc/grub.d/
+</code></pre>
+</li>
+<li><strong>Archivo de configuración personalizado:</strong><pre><code language="language-bash" class="language-bash">sudo chmod 700 /etc/grub.d/40_custom
+</code></pre>
+</li>
+</ul>
+Esto impide que usuarios sin privilegios de <code>root</code> puedan alterar los archivos y comprometer la seguridad del arranque.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Copia de Seguridad de la Configuración del Arranque" duration="2">
+        <p>Aunque no es una medida de seguridad directa, la realización de una copia de seguridad de los archivos de configuración críticos del arranque es una práctica esencial para la recuperación ante desastres o errores de configuración.</p>
+<h2 is-upgraded>Procedimiento de Copia de Seguridad</h2>
+<ol type="1">
+<li><strong>Copia del Directorio de Scripts:</strong> Cree una copia comprimida del directorio completo de <em>scripts</em> de GRUB 2:<pre><code language="language-bash" class="language-bash">sudo tar -czvf /root/grub_d_backup.tar.gz /etc/grub.d
+</code></pre>
+</li>
+<li><strong>Copia del Archivo de Configuración Principal:</strong> Copie el archivo de configuración por defecto:<pre><code language="language-bash" class="language-bash">sudo cp /etc/default/grub /root/grub_default_backup
+</code></pre>
+</li>
+<li><strong>Almacenamiento Seguro:</strong> Se recomienda almacenar estas copias de seguridad en una ubicación segura y cifrada, idealmente fuera del disco duro del sistema (ej. en un almacenamiento en red o una unidad USB cifrada).</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="2.5 Otras Opciones de Seguridad para el Arranque" duration="2">
+        <p>Como capa adicional, se puede proteger el archivo de configuración final de GRUB 2 (aunque se regenera automáticamente), así como realizar una verificación de su estado.</p>
+<h2 is-upgraded>Protección Adicional del Archivo grub.cfg</h2>
+<ol type="1">
+<li><strong>Inmutabilidad (Opcional):</strong> El archivo generado <code>/boot/grub/grub.cfg</code> es el que realmente lee GRUB al arrancar. Aunque se regenera con <code>update-grub</code>, podemos añadir una capa de protección (inmutabilidad) para evitar su modificación accidental o no autorizada <em>a posteriori</em>.<pre><code language="language-bash" class="language-bash">sudo chattr +i /boot/grub/grub.cfg
+</code></pre>
+(Para modificarlo de nuevo, debe eliminar el atributo con <code>sudo chattr -i /boot/grub/grub.cfg</code>).</li>
+<li><strong>Verificación del Estado (Opcional):</strong> Puede verificar el estado de los <em>flags</em> de inmutabilidad en cualquier momento:<pre><code language="language-bash" class="language-bash">lsattr /boot/grub/grub.cfg
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
