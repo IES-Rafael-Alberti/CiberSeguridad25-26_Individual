@@ -109,22 +109,7 @@ Esto impide que usuarios sin privilegios de <code>root</code> puedan alterar los
 </ol>
 
 
-      </google-codelab-step>
-    
-      <google-codelab-step label="2.5 Otras Opciones de Seguridad para el Arranque" duration="2">
-        <p>Como capa adicional, se puede proteger el archivo de configuración final de GRUB 2 (aunque se regenera automáticamente), así como realizar una verificación de su estado.</p>
-<h2 is-upgraded>Protección Adicional del Archivo grub.cfg</h2>
-<ol type="1">
-<li><strong>Inmutabilidad (Opcional):</strong> El archivo generado <code>/boot/grub/grub.cfg</code> es el que realmente lee GRUB al arrancar. Aunque se regenera con <code>update-grub</code>, podemos añadir una capa de protección (inmutabilidad) para evitar su modificación accidental o no autorizada <em>a posteriori</em>.<pre><code language="language-bash" class="language-bash">sudo chattr +i /boot/grub/grub.cfg
-</code></pre>
-(Para modificarlo de nuevo, debe eliminar el atributo con <code>sudo chattr -i /boot/grub/grub.cfg</code>).</li>
-<li><strong>Verificación del Estado (Opcional):</strong> Puede verificar el estado de los <em>flags</em> de inmutabilidad en cualquier momento:<pre><code language="language-bash" class="language-bash">lsattr /boot/grub/grub.cfg
-</code></pre>
-</li>
-</ol>
 
-
-      </google-codelab-step>
     
   </google-codelab>
 
