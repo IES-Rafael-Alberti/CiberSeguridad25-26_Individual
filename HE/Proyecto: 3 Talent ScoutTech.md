@@ -1,6 +1,3 @@
-Perfecto. Aquí tienes **el informe completo unificado (Partes 1–5) en Markdown**, con un formato profesional, sin emojis y listo para un informe universitario. He integrado todo lo que trabajamos, dejando indicaciones para las capturas de pantalla.
-
----
 
 # Informe de Seguridad – Proyecto Talent ScoutTech
 
@@ -268,5 +265,6 @@ Se puede insertar en comentarios XSS, ejecutándose automáticamente.
 📸 *[Añadir captura del comportamiento]*
 
 ---
+
 
 
