@@ -10,7 +10,9 @@
 Al introducir el carácter `'` en el campo **username**, la aplicación genera un error interno, evidenciando que la consulta SQL falla por una sintaxis inválida.
 Esto indica que el valor introducido por el usuario se concatena directamente en la consulta SQL sin validación ni uso de consultas preparadas, lo que expone a la aplicación a ataques de **SQL Injection**.
 
-📸 *[Se adjuntará captura de pantalla del error generado]*
+
+<img width="663" height="22" alt="image" src="https://github.com/user-attachments/assets/288841d7-089a-440c-a706-7b3bf7761d24" />
+
 
 ---
 
@@ -24,7 +26,8 @@ Para continuar con la auditoría, se accedió al sistema utilizando las credenci
 * **Usuario:** `luis`
 * **Contraseña:** `1234`
 
-📸 *[Se adjuntará captura de pantalla del acceso exitoso]*
+<img width="253" height="493" alt="image" src="https://github.com/user-attachments/assets/db980ade-7647-48e0-8b34-1d66d3a1410a" />
+
 
 ---
 
@@ -39,7 +42,8 @@ No se implementan mecanismos adicionales de seguridad como:
 * Tokens de sesión
 * Cookies con atributos `HttpOnly` o `Secure`
 
-📸 *[Se adjuntará captura de las cookies almacenadas en el navegador]*
+<img width="537" height="288" alt="image" src="https://github.com/user-attachments/assets/3107acf6-e2d5-4fa0-a290-a0998199be92" />
+
 
 ---
 
@@ -48,12 +52,13 @@ No se implementan mecanismos adicionales de seguridad como:
 Se intentó acceder a un posible archivo de respaldo del código fuente mediante la URL:
 
 ```
-http://localhost/web/add_comment.php~
+http://localhost/web/add_comment.php~.php
 ```
 
-El servidor respondió con un error **404 Not Found**, indicando que el archivo de backup no existe o no es accesible desde la configuración actual del servidor.
+El servidor respondió con una pagina de copia .
 
-📸 *[Se adjuntará captura del error 404 mostrado por el servidor]*
+<img width="278" height="683" alt="image" src="https://github.com/user-attachments/assets/e9bcf886-376a-438b-abc4-b312574afa2c" />
+
 
 ---
 
@@ -71,8 +76,10 @@ Ejemplo de comentario:
 
 Al acceder al listado de comentarios, el navegador ejecuta el código JavaScript embebido, confirmando que la aplicación es vulnerable a **XSS almacenado**.
 
-📸 *[Añadir captura del comentario introducido]*
-📸 *[Añadir captura del alert ejecutándose]*
+<img width="277" height="593" alt="image" src="https://github.com/user-attachments/assets/fe4781e6-fb12-40d7-b534-2bfe39a1f6e4" />
+
+
+<img width="463" height="168" alt="image" src="https://github.com/user-attachments/assets/feb8127f-538c-48b4-818d-6c9f5bf76563" />
 
 ---
 
@@ -106,10 +113,17 @@ Con esto, el código JavaScript se mostrará como texto y no se ejecutará.
 
 ### 2.d – Otras páginas afectadas
 
-Cualquier página que muestre datos introducidos por usuarios sin validación puede estar afectada por XSS.
-Esto se detectó introduciendo el mismo payload en distintos campos y verificando si el código se ejecutaba.
+Para comprobar si existían más páginas vulnerables a XSS, se reutilizó el mismo payload empleado anteriormente:
 
-📸 *[Añadir captura del comportamiento en otra página]*
+<script>alert('XSS')</script>
+
+Este payload se introdujo en distintos campos de entrada gestionados por la aplicación, como nombres y comentarios, y posteriormente se accedió a las páginas donde dicha información es mostrada.
+
+Durante las pruebas se observó que, al acceder a páginas como `list_players.php`, el código JavaScript se ejecutaba automáticamente al renderizar los datos almacenados, mostrando un alert en el navegador.
+
+Esto confirma que no se trata de una vulnerabilidad aislada, sino de un problema generalizado: cualquier página que muestre datos introducidos por el usuario sin aplicar mecanismos de escape o validación (`htmlspecialchars`) es vulnerable a ataques XSS almacenados.
+
+<img width="281" height="532" alt="image" src="https://github.com/user-attachments/assets/4f1ebdbf-7559-4ad8-bcf7-6c6e3d5bdcc1" />
 
 ---
 
@@ -265,6 +279,7 @@ Se puede insertar en comentarios XSS, ejecutándose automáticamente.
 📸 *[Añadir captura del comportamiento]*
 
 ---
+
 
 
 
