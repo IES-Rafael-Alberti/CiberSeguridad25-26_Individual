@@ -276,9 +276,8 @@ Ejemplo de ataque mediante formulario y JavaScript:
 
 Se puede insertar en comentarios XSS, ejecutándose automáticamente.
 
-📸 *[Añadir captura del comportamiento]*
-
 ---
+
 
 
 
