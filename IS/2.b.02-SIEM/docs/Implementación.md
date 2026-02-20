@@ -35,7 +35,7 @@ Detecta tráfico TCP dirigido al puerto 22 (SSH), sin filtrar por estado de cone
 alert tcp any any -> any 22 (msg:"Acceso SSH Detectado"; sid:3000002; rev:1;)
 ```
 
-> ![alt text](image-2.png)
+> ![alt text](img/image-2.png)
 
 
 
@@ -70,7 +70,7 @@ for /l %i in (1,1,5) do (
 )
 ```
 
-> ![alt text](image-3.png)
+> ![alt text](img/image-3.png)
 
 
 ### 4.2. Verificación en Snort
@@ -78,12 +78,12 @@ Se verificó que Snort estuviera generando alertas localmente:
 ```bash
 tail -f /var/log/snort/alert
 ```
-> ![alt text](image-4.png)
+> ![alt text](img/image-4.png)
 
 ### 4.3. Visualización en Kibana (Dashboard)
 Finalmente, se verificó que las alertas aparecieran en el índice de Filebeat en Kibana. Se creó una visualización (Data View) filtrando por `snort_alert`.
 
-> ![alt text](image-5.png)
+> ![alt text](img/image-5.png)
 
 ## 5. Conclusiones
 La implementación permite detectar eficazmente intentos de reconocimiento y acceso no autorizado. La integración con ELK centraliza estas alertas, permitiendo un análisis correlacionado en el SOC.
