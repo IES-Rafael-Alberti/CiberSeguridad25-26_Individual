@@ -66,7 +66,7 @@ Se partió del repositorio `elk-docker` y se modificó para incluir Snort.
     ```
 3.  [Insertar captura de pantalla aquí: Salida del comando snort --version]] `snort --version`
 
-> ![alt text](image-1.png)
+> ![alt text](img/image-1.png)
 
 ### 4.2. Configuración de Filebeat
 Se modificó `/etc/filebeat/filebeat.yml` para enviar datos a Logstash (IP 172.20.0.10) y desactivar SSL para facilitar la comunicación en este entorno de pruebas.
