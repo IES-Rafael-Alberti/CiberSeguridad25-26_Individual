@@ -31,7 +31,7 @@ for /l %i in (1,1,5) do (
 1.  **Tráfico ICMP:** El comando `ping` genera paquetes que son detectados por la regla de reconocimiento.
 2.  **Tráfico SSH:** La conexión TCP al puerto 22 (`/dev/tcp/...`) simula un intento de acceso que activa la alerta SSH.
 
-> ![alt text](image-6.png)
+> ![alt text](img/image-6.png)
 
 ## 5. Lógica de Detección (Reglas)
 
@@ -59,7 +59,7 @@ Se configurará una regla para detectar intentos de conexión SSH. Para reducir 
 4.  **Elasticsearch:** Indexa el documento.
 5.  **Kibana:** Muestra la alerta en el Dashboard en tiempo real, permitiendo al analista correlacionar el evento con la IP de origen del atacante.
 
-> ![alt text](image-7.png)
+> ![alt text](img/image-7.png)
 
 ## 7. Post-Condiciones
 *   La alerta es visible en el Dashboard "Resumen de Seguridad".
