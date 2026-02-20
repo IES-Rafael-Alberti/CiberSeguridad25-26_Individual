@@ -46,7 +46,7 @@ docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it \
 ```
 
 
-> ![alt text](image.png)
+> ![alt text](img/image.png)
 
 ## 4. Configuración del Endpoint con Snort y Filebeat
 
