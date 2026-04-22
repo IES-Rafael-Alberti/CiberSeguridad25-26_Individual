@@ -1,5 +1,20 @@
 # Informe de entrega
 
+## Indice
+
+1. [Identificacion del proyecto](#1-identificacion-del-proyecto)
+2. [Arquitectura de la aplicacion](#2-arquitectura-de-la-aplicacion)
+3. [Analisis funcional](#3-analisis-funcional)
+4. [Autenticacion OAuth 2](#4-autenticacion-oauth-2)
+5. [Autorizacion RBAC y ABAC](#5-autorizacion-rbac-y-abac)
+6. [Informe de analisis estatico](#6-informe-de-analisis-estatico)
+7. [Informe de analisis dinamico](#7-informe-de-analisis-dinamico)
+8. [Despliegue en Render y Supabase](#8-despliegue-en-render-y-supabase)
+9. [Gestion de secretos](#9-gestion-de-secretos)
+10. [Resultado de cumplimiento de la tarea](#10-resultado-de-cumplimiento-de-la-tarea)
+11. [Anexos](#11-anexos)
+12. [Conclusiones](#12-conclusiones)
+
 ## 1. Identificacion del proyecto
 
 Aplicacion web para una clinica veterinaria con tienda, servicios veterinarios y adopcion de mascotas.
@@ -265,17 +280,11 @@ Buenas practicas aplicadas:
 - [x] Gestion de secretos documentada
 - [x] Documentacion de resultados preparada para repositorio individual
 
-## 11. Evidencias recomendadas para anexar
+## 11. Anexos
 
-Para cerrar la entrega con soporte visual o tecnico, anexar:
+Repositorio de la aplicacion web:
 
-1. Captura de OAuth 2 completado
-2. Capturas o logs de RBAC con respuestas `200` y `403`
-3. Capturas o logs de ABAC con respuestas `200` y `403`
-4. Reporte de SonarQube
-5. Reporte de OWASP Dependency Check
-6. Reporte de OWASP ZAP
-7. Captura del despliegue en Render y la configuracion de Supabase
+- [Enlace al repo de la web](https://github.com/Manuperrom07/Web_Frameworks)
 
 ## 12. Conclusiones
 
