@@ -18,7 +18,7 @@
 ![Resultado de certificado valido - resumen](img/7.png)
 
 
-### 2.3 Motivos de validez (completar con resultados reales)
+### 2.3 Motivos de validez
 - El dominio analizado responde con un certificado emitido por una CA publica reconocida.
 - El nombre del dominio coincide con el CN y con el SAN del certificado.
 - El certificado se encuentra dentro de su periodo de validez.
@@ -92,5 +92,5 @@
 | Valido resumen | img/6.png | SI |
 | Valido detalle | img/7.png | SI |
 | Invalido expirado | img/8.png | SI |
-| Invalido hostname | img/9.png | SI |
-| Invalido cadena | img/10.png | SI |
+| Invalido hostname | img/10.png | SI |
+| Invalido cadena | img/9.png | SI |
