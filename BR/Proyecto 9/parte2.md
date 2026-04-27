@@ -54,10 +54,10 @@
 | Criterio | Certificado propio (autofirmado) | Sitio verificado (referencia) | Impacto practico |
 |---|---|---|---|
 | Emisor (Issuer) | 192.168.56.114 (el propio servidor) | WR2 / Google Trust Services | El autofirmado no aporta confianza publica de identidad |
-| Cadena de confianza | [No confiable publicamente] | [Confiable] | [Advertencia vs confianza] |
+| Cadena de confianza | No confiable publicamente | Confiable | Advertencia vs confianza |
 | Coincidencia CN/SAN con dominio | CN=192.168.56.114 y SAN con IP 192.168.56.114 | CN=www.google.com y SAN con DNS www.google.com | Evita error de nombre, pero no elimina la advertencia por confianza |
 | Fecha de validez | 27/04/2026 a 27/04/2027 | 30/03/2026 a 22/06/2026 | La validez temporal no sustituye la confianza de CA |
-| Revocacion (OCSP/CRL) | [Completar] | [Completar] | [Completar] |
+| Revocacion (OCSP/CRL) | No visible en la vista basica del navegador | No visible en la vista basica del navegador | Requiere comprobacion especifica en herramientas de TLS |
 | Percepcion del navegador | No es seguro / advertencia | Seguro | El usuario no puede verificar identidad de forma confiable |
 
 ## 4. Analisis
