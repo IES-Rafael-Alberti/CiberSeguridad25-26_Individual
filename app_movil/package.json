@@ -1,0 +1,42 @@
+{
+  "name": "veterinary-framework-app",
+  "version": "1.0.0",
+  "description": "Aplicacion web de clinica veterinaria con OAuth2, RBAC, ABAC y Supabase",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "seed": "node src/scripts/seed.js",
+    "sast": "sonar-scanner",
+    "sca": "dependency-check --project veterinary-framework-app --scan . --format HTML --out reports/dependency-check",
+    "dast": "docker run --rm -t -v %cd%:/zap/wrk/:rw zaproxy/zap-stable zap-baseline.py -t http://host.docker.internal:3000 -r zap-report.html -I"
+  },
+  "keywords": [
+    "express",
+    "oauth2",
+    "rbac",
+    "abac",
+    "supabase",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.1",
+    "connect-sqlite3": "^0.9.16",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

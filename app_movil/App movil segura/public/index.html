@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1324" />
+    <title>VetCare One | Clínica Veterinaria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header glass-card">
+        <div class="brand-block">
+          <p class="eyebrow">VetCare One</p>
+          <h1>Clínica veterinaria con tienda, adopciones y servicios.</h1>
+        </div>
+        <div class="header-actions">
+          <a class="primary-button button-inline" href="/auth/google?redirect=1">Entrar con Google</a>
+          <a class="ghost-button button-inline" href="#catalogo">Ver catálogo</a>
+          <a class="ghost-button button-inline" href="#cumplimiento">Cumplimiento</a>
+        </div>
+      </header>
+
+      <nav class="site-nav glass-card">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#sesion">Sesión</a>
+        <a href="#pruebas">Pruebas</a>
+        <a href="#cumplimiento">Cumplimiento</a>
+        <a href="#consola">Consola</a>
+        <a href="#seguridad">Seguridad</a>
+      </nav>
+
+      <main class="dashboard-grid">
+        <section class="hero-panel glass-card">
+          <div class="hero-copy">
+            <p class="badge">OAuth 2 + RBAC + ABAC + Render + Supabase</p>
+            <h2>Todo el flujo funcional en una sola web.</h2>
+            <div class="hero-stats">
+              <article>
+                <strong>4</strong>
+                <span>Roles</span>
+              </article>
+              <article>
+                <strong>2</strong>
+                <span>Modelos de autorización</span>
+              </article>
+              <article>
+                <strong>3</strong>
+                <span>Capas de seguridad</span>
+              </article>
+            </div>
+          </div>
+          <aside class="hero-aside">
+            <div class="status-card">
+              <div>
+                <p class="status-label">Sesión actual</p>
+                <h3 id="sessionState">Sin iniciar sesión</h3>
+                <p id="sessionMeta" class="muted"></p>
+              </div>
+              <div class="role-pills" id="rolePills"></div>
+              <div class="session-source" id="sessionSource">Fuente: ninguna</div>
+            </div>
+            <div class="token-panel">
+              <div class="panel-header">
+                <span>Access Token</span>
+                <button class="link-button" id="copyTokenBtn">Copiar</button>
+              </div>
+              <code id="tokenPreview">Aún no hay token</code>
+            </div>
+          </aside>
+        </section>
+
+        <section id="cumplimiento" class="compliance-section glass-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Requisitos</p>
+              <h2>Cumplimiento del proyecto</h2>
+            </div>
+          </div>
+          <div class="compliance-grid">
+            <article class="compliance-item"><strong>OAuth 2</strong></article>
+            <article class="compliance-item"><strong>RBAC + ABAC</strong></article>
+            <article class="compliance-item"><strong>SAST</strong></article>
+            <article class="compliance-item"><strong>RCA / SCA</strong></article>
+            <article class="compliance-item"><strong>DAST</strong></article>
+            <article class="compliance-item"><strong>Deploy</strong></article>
+            <article class="compliance-item"><strong>Secretos</strong></article>
+          </div>
+        </section>
+
+        <section id="catalogo" class="catalog-section glass-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Catálogo vivo</p>
+              <h2>Productos, servicios y ofertas</h2>
+            </div>
+            <div class="section-actions">
+              <button class="secondary-button" id="loadCatalogBtn">Actualizar catálogo</button>
+              <button class="secondary-button" id="loadTokenBtn">Recargar sesión</button>
+            </div>
+          </div>
+          <div class="catalog-grid">
+            <article class="catalog-column">
+              <div class="catalog-header">
+                <h3>Productos</h3>
+              </div>
+              <div class="catalog-list" id="productsList">
+                <div class="empty-state"></div>
+              </div>
+            </article>
+            <article class="catalog-column">
+              <div class="catalog-header">
+                <h3>Servicios veterinarios</h3>
+              </div>
+              <div class="catalog-list" id="servicesList">
+                <div class="empty-state"></div>
+              </div>
+            </article>
+            <article class="catalog-column highlight-column">
+              <div class="catalog-header">
+                <h3>Ofertas exclusivas</h3>
+              </div>
+              <div class="catalog-list" id="offersList">
+                <div class="empty-state"></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="sesion" class="session-section glass-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Gestión de sesión</p>
+              <h2>Acceso, token y permisos</h2>
+            </div>
+          </div>
+          <div class="session-grid">
+            <div class="session-card">
+              <h3>Google OAuth</h3>
+              <a class="primary-button button-inline" href="/auth/google?redirect=1">Entrar con Google</a>
+            </div>
+            <div class="session-card">
+              <h3>Login con usuario de prueba</h3>
+              <form id="localLoginForm" class="local-login-form">
+                <input id="localEmail" type="email" placeholder="Email" required />
+                <input id="localPassword" type="password" placeholder="Contraseña" required />
+                <button class="primary-button" type="submit">Entrar</button>
+              </form>
+            </div>
+            <div class="session-card">
+              <h3>Token activo</h3>
+              <button class="secondary-button" id="logoutBtn">Cerrar sesión</button>
+            </div>
+            <div class="session-card">
+              <h3>Permisos</h3>
+              <p id="permissionsHint"></p>
+              <div class="mini-tag-row" id="permissionBadges"></div>
+              <div class="capability-box">
+                <p class="capability-title">Acciones habilitadas</p>
+                <ul id="capabilitiesList" class="capabilities-list"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pruebas" class="testing-section glass-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Modo demo</p>
+              <h2>Pruebas rápidas de autorización</h2>
+            </div>
+          </div>
+          <div class="role-grid">
+            <button class="role-card" data-login-role="client">
+              <span class="role-title">Clientela</span>
+            </button>
+            <button class="role-card" data-login-role="vet">
+              <span class="role-title">Veterinari@s</span>
+            </button>
+            <button class="role-card" data-login-role="sales">
+              <span class="role-title">Ventas</span>
+            </button>
+            <button class="role-card" data-login-role="admin">
+              <span class="role-title">Admin</span>
+            </button>
+          </div>
+          <div class="quick-actions">
+            <button class="secondary-button" data-action="/products">Ver JSON de productos</button>
+            <button class="secondary-button" data-action="/services">Ver JSON de servicios</button>
+            <button class="secondary-button" data-action="/offers/exclusive">Ver JSON de ofertas</button>
+            <button class="secondary-button" data-action="/adoptions-demo">Simular adopción</button>
+          </div>
+        </section>
+
+        <section id="adminPanel" class="admin-section glass-card hidden">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Administración</p>
+              <h2>Usuarios y roles</h2>
+            </div>
+            <button class="secondary-button" id="refreshUsersBtn">Recargar usuarios</button>
+          </div>
+          <div class="admin-layout">
+            <div>
+              <h3 class="admin-subtitle">1) Selecciona usuario</h3>
+              <div id="adminUsersList" class="admin-users-list">
+                <div class="empty-state">No hay usuarios cargados.</div>
+              </div>
+            </div>
+            <div class="admin-editor">
+              <h3 class="admin-subtitle">2) Edita roles</h3>
+              <p id="adminSelectedUserLabel" class="muted"></p>
+              <div id="adminRoleChecks" class="admin-role-checks"></div>
+              <button class="secondary-button" id="adminSaveRolesBtn" disabled>Guardar roles</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="consola" class="audit-panel glass-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Consola</p>
+              <h2>Respuestas API</h2>
+            </div>
+          </div>
+          <pre id="outputPanel"></pre>
+        </section>
+
+        <section id="seguridad" class="docs-grid">
+          <article class="doc-card glass-card">
+            <h3>Seguridad</h3>
+          </article>
+          <article class="doc-card glass-card">
+            <h3>Despliegue</h3>
+          </article>
+          <article class="doc-card glass-card">
+            <h3>Token</h3>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
